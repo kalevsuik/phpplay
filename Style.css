@@ -1,0 +1,137 @@
+body {
+	margin: 0px;
+	font-family: Arial, Helvetica,sans-serif;
+	font-size:15px;
+	background: #F2EDDC;
+}
+
+#header, #wrap{
+	max-width: 780px;
+	margin:auto;
+	padding: 0 20px 0 20px;
+}
+
+
+
+#header ul{
+	list-style: none;
+	margin:20px;
+	padding:0px;
+}
+#header li {
+	display: inline-block;
+}
+#header a {
+	display: inline-block;
+	padding:5px 15px;
+	color:black;
+	text-decoration: none;
+}
+#header a:hover, #header li:hover {
+	background: #CCF;
+	color:red;
+}
+
+#banner, #footer {
+background: #CCF;
+text-align:center;
+border-width: 4px 0px;
+border-style:solid;
+border-color:#CCC;
+
+}
+#banner {
+	height: 100px;
+	background: #fff url('Pildid/Banner1.jpg') repeat-x left top;
+}
+
+#gallery img {
+	border: solid #CCF 3px;
+	float:left;
+	height: 150px;
+	width: 200px;
+	margin: 3px;
+	padding:0;
+	cursor: pointer;
+}
+
+#image_wrapper {
+	display:none;
+	padding: 5px;
+	background-color:#fff;
+	border: solid #CCF 1px;
+}
+
+#image_wrapper a {
+	color: #333;
+}
+
+#image_wrapper img {
+	max-height: 500px !important;
+	max-width: 600px;
+	
+}
+
+.buttonbar {
+	text-align: center;
+}
+
+form p  {
+	border: solid #CCF 3px;
+	padding:5px;
+}
+
+#vote_opts p {
+	width: 150px;
+}
+#footer { margin-top:100px;}
+form label {display: block;}
+form p { 
+	margin: 5px auto;
+	display: inline-block;
+	text-align: center;
+}
+
+#pilt  img {
+	
+	border: solid #CCF 3px;
+	float:left;
+	height: 360px;
+	width: 512px;
+	padding:0;
+	cursor: pointer;
+}
+
+#pilt1  img {
+	position:relative;
+	top: 50px;
+	left: 250px;
+	border: solid #CCF 3px;
+	float:left;
+	height: 360px;
+	width: 512px;
+	padding:0;
+	cursor: pointer;
+}
+
+#vorm {
+	position:relative;
+	top: 50px;
+	left: 250px;
+	border: solid #CCF 3px;
+	float:left;
+	height: 360px;
+	width: 512px;
+	padding:0;
+	cursor: pointer;
+}
+
+
+#tabel {
+	position:relative;
+	top: 0px;
+	left: 550px;
+}	
+.clearer {
+	clear: both;
+}
