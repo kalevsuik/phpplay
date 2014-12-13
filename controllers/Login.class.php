@@ -9,6 +9,7 @@ class Login
 {
 	public function run()//peab koigis kontrollerites olema
 	{
+		//header('Location:' . SITE_URL);// redirectimine
 		$dbUsers = new Users();
 		$users = $dbUsers->getAllUsers();
 		/*
@@ -20,7 +21,7 @@ class Login
 				),
 			);
 		*/
-		
+
 		$reqUsername = isset($_POST['username']) ? $_POST['username'] : ''; // kui username on olemas, siis votab selle, muul juhul jatab tyhjaks
 		$reqPassword = isset($_POST['password']) ? $_POST['password'] : '';
 
@@ -35,18 +36,20 @@ class Login
 			$_SESSION['fullname'] = $user->getFirstName() . ' ' . $user->getLastName();
 			session_write_close();//sessiooni lopetamiseks
 			//header('Location:' . SITE_URL);// redirectimine
+			//$view = new View();
+			//$view->setTemplateFile('views/index.php');
+			//echo $view->render();
 			exit();
+		}else{
+			$view = new View();
+			if (!empty($_POST)) $view->addViewVar('loginerror', 'Vale kasutajanimi või salasõna.');	
+			if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == 1){
+				$view->addViewVar('loginerror', 'Oled juba sisse logitud');
+			}
+			$view->addViewVar('username', $reqUsername);//jatab eeltaidetud info alles
+			$view->setTemplateFile('views/login.php');
+			echo $view->render();//
 		}
-		
-		$view = new View();
-		if (!empty($_POST)) $view->addViewVar('loginerror', 'Vale kasutajanimi või salasõna.');	
-		if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == 1)
-		{
-			$view->addViewVar('loginerror', 'Oled juba sisse logitud');
-		}
-		$view->addViewVar('username', $reqUsername);//jatab eeltaidetud info alles
-		$view->setTemplateFile('views/login.php');
-		echo $view->render();//
 	}
 }
 
