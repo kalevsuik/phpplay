@@ -54,7 +54,7 @@ function db_quote($value) {
 }
 
 function db_get_users(){
-    $rows = db_select("SELECT `username`,`email`,`first_name`,`last_name`,`password` FROM `ksaadi_users`");
+    $rows = db_select("SELECT `id`,`username`,`email`,`first_name`,`last_name`,`password`,`admin` FROM `ksaadi_users`");
     if($rows === false) {
         $error = db_error();
         // Handle error - inform administrator, log to file, show error page, etc.
@@ -62,6 +62,27 @@ function db_get_users(){
         echo $error;
         die();
     }
+    $users = array();
+
+        // look through query
+    while($row = $rows) {
+        //while($row = mysql_fetch_assoc($user_query)){
+
+        $usr = array(
+            'password' => $row["password"],
+            'firstname' => $row["first_name"],
+            'lastname' => $row["last_name"],
+            'id' => $row["id"],
+            'username' => $row["username"],
+            'email' => $row["email"],
+            'admin' => $row["admin"],
+            );
+        
+        $users += [ $usr->$row["username"]  => $usr ];
+
+    }
+
+    return $users;
 }
 
 ?>

@@ -6,14 +6,14 @@ class Login
 	public function run()//peab koigis kontrollerites olema
 	{
 		
-		$users = array(
+		/*$users = array(
 			'kaire' => array(
 				'password' => 'üübersiikrit',
 				'firstname' => 'Kaire',
 				'lastname' => 'Saadi',
 				),
-			);
-		
+			);*/
+		$users = db_get_users();
 		$reqUsername = isset($_POST['username']) ? $_POST['username'] : ''; // kui username on olemas, siis votab selle, muul juhul jatab tyhjaks
 		$reqPassword = isset($_POST['password']) ? $_POST['password'] : '';
 		
