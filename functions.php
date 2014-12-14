@@ -24,8 +24,9 @@ function login(){
     $errors = array();
 
     if (!empty($_POST['username']) && !empty($_POST['password'])) {
-        $connection = connect_db();
-        $user_query = mysqli_query($connection, "select * from ksaadi_users where username = '" . mysqli_real_escape_string($connection, $_POST['username']) . "' and password = '" . sha1($_POST['password']) . "' limit 1");
+        connect_db();
+        $connection=$GLOBALS['connection'];
+        $user_query = mysqli_query($connection, "select * from ksaadi_users where username = '" . mysqli_real_escape_string($connection, $_POST['username']) . "' and password = '" . $_POST['password'] . "' limit 1");
         $user = mysqli_fetch_assoc($user_query);
         mysqli_free_result($user_query);
         mysqli_close($connection);
@@ -42,8 +43,8 @@ function login(){
     } else {
         $errors[] = 'Palun sisesta nii kasutajanimi kui salasõna!';
     }
-
     include 'views/login.php';
+
 }
 
 function registration(){
