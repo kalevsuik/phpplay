@@ -4,7 +4,7 @@
 <?php if (isset($loginerror)):?>
 <p style="color:#f00"><?php echo $loginerror?></p>
 <?php endif;?>
-<form action="<?php echo SITE_URL?>/index.php?action=register" method="post" enctype="application/x-www-form-urlencoded"  >
+<form action="<?php echo SITE_URL?>/index.php?action=login" method="post" enctype="application/x-www-form-urlencoded"  >
 <label for="first_name">Eesnimi</label><input type="first_name" value="" name="first_name" id="first_name">
 <label for="last_name">Perekonnanimi</label><input type="last_name" value="" name="last_name" id="last_name">
 <label for="email">e-mail</label><input type="email" value="" name="email" id="email">

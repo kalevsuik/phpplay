@@ -1,150 +1,67 @@
 <?php
 
-function connect_db(){
+function db_connect() {
 
-//andmebaasiga ühendumise funktsioon
-	global $connection;
-	$host="localhost";
-	$user="test";
-	$pass="t3st3r123";
-	$db="test";
-	$connection = mysqli_connect($host, $user, $pass, $db) or die("Andmebaasiga ei saa ühendust- ".mysqli_error());
-	mysqli_query($connection, "SET CHARACTER SET UTF8") or die("Ei saanud baasi utf-8-sse - ".mysqli_error($connection));
+        // Define connection as a static variable, to avoid connecting more than once
+    static $connection;
+
+        // Try and connect to the database, if a connection has not been established yet
+    if(!isset($connection)) {
+        // Load configuration as an array. Use the actual location of your configuration file
+        $config = parse_ini_file('config.ini');
+        $connection = mysqli_connect('localhost',$config['username'],$config['password'],$config['dbname']);
+    }
+
+        // If connection was not successful, handle the error
+    if($connection === false) {
+            // Handle error - notify administrator, log to a file, show an error screen, etc.
+        return mysqli_connect_error();
+    }
+    return $connection;
 }
 
-function login(){
-	// siia tahan teha sisselogimise funktsiooni
-	
-	// kontrollib, kas kasutaja on sisse logitud, kui on siis suunab hääletamise vaatesse
-    if (!empty($_SESSION['login']) && $_SESSION['login'] === true) {
-        header('Location: index.php?page=vote');
-        die();
-    }
+function db_query($query) {
+        // Connect to the database
+    $connection = db_connect();
 
-    $errors = array();
+        // Query the database
+    $result = mysqli_query($connection,$query);
 
-    if (!empty($_POST['username']) && !empty($_POST['password'])) {
-        connect_db();
-        $connection=$GLOBALS['connection'];
-        $user_query = mysqli_query($connection, "select * from ksaadi_users where username = '" . mysqli_real_escape_string($connection, $_POST['username']) . "' and password = '" . $_POST['password'] . "' limit 1");
-        $user = mysqli_fetch_assoc($user_query);
-        mysqli_free_result($user_query);
-        mysqli_close($connection);
-        if (!empty($user)) {
-            $_SESSION['login'] = true;
-            $_SESSION['id'] = $user['id'];
-            $_SESSION['admin'] = $user['admin'];
-            $_SESSION['username'] = $user['username'];
-            header('Location: index.php?page=vote');
-            die();
-        } else {
-            $errors[] = 'Kasutajanimi või salasõna ei ole korrektsed!';
-        }
-    } else {
-        $errors[] = 'Palun sisesta nii kasutajanimi kui salasõna!';
-    }
-    include 'views/login.php';
-
+    return $result;
 }
 
-function registration(){
-	// siia tahan teha registreerimise funktsiooni
-	
-	// kontrollib, kas kasutaja on sisse logitud, ja suunab hääletamise vaatesse
-    if (!empty($_SESSION['login']) && $_SESSION['login'] === true) {
-        header('Location: index.php?page=vote');
-        die();
+
+function db_select($query) {
+    $rows = array();
+    $result = db_query($query);
+
+        // If query failed, return `false`
+    if($result === false) {
+        return false;
     }
 
-    $errors = array();
-// kas on ok, kõik viis välja siia ritta laduda
-    if (!empty($_POST['first_name']) && !empty($_POST['last_name']) && !empty($_POST['email']) && !empty($_POST['username']) && !empty($_POST['password'])) {
-        $connection = connect_db();
-        $user_query = mysqli_query($connection, "select * from ksaadi_users where username = '" . mysqli_real_escape_string($connection, $_POST['username']) . "' and password = '" . sha1($_POST['password']) . "' limit 1");
-        $user = mysqli_fetch_assoc($user_query);
-        mysqli_free_result($user_query);
-        mysqli_close($connection);
-        if (!empty($user)) {
-            $_SESSION['login'] = true;
-            $_SESSION['id'] = $user['id'];
-            $_SESSION['admin'] = $user['admin'];
-            $_SESSION['username'] = $user['username'];
-        header('Location: index.php?page=vote');  //kas peaks hääletuse lehele juhatama või kusagile mujale?
-        die();
-    } else {
-        $errors[] = 'Väljad ei ole korrektselt täidetud!';
+        // If query was successful, retrieve all the rows into an array
+    while ($row = mysqli_fetch_assoc($result)) {
+        $rows[] = $row;
     }
-} else {
-    $errors[] = 'Palun täida kõik väljad!';
+    return $rows;
 }
 
-include 'views/register.php';
+
+function db_quote($value) {
+    $connection = db_connect();
+    return "'" . mysqli_real_escape_string($connection,$value) . "'";
 }
 
-function validate_registration() {
-
-// tahan teha funktsiooni millega valideerida registreerimisvormi kõiki välju
-
-    $postfields = array(
-        'first_name' => 'Palun sisesta eesnimi!',
-        'last_name' => 'Palun sisesta perekonnanimi!',
-        'email' => 'Palun sisesta e-mail!',
-        'username' => 'Palun sisesta kasutajanimi!',
-        'password' => 'Salasõna on kohustuslik!',
-        
-        );
-
-    $errormsgs = array();
-
-    foreach ($postfields as $postfield => $errormsg) {
-        if (empty($_POST[$postfield])) {
-            $errormsgs[] = $errormsg;
-        }
-    }
-
-    if (!empty($errormsgs)) {
-        return $errormsgs;
-    }
-
-    if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) === false) {
-        $errormsgs[] = 'E-mail ei ole korrektne!';
-    }
-
-    if (strlen($_POST['password']) < 6) {
-        $errormsgs[] = 'Salasõna peab sisaldama vähemalt 6 tähemärki!';
-    }
-
-
-    if (!empty($errormsgs)) {
-        return $errormsgs;
-    }
-
-    $connection = connect_db();
-    $email_query = mysqli_query($connection, "select * from ksaadi_users where email = '" . mysqli_real_escape_string($connection, $_POST['email']) . "' limit 1");
-    $user = mysqli_fetch_assoc($email_query);
-    mysqli_free_result($email_query);
-    mysqli_close($connection);
-
-    if (!empty($user)) {
-        $errormsgs[] = 'Sellise e-mailiga kasutaja on juba olemas, proovi hoopis sisse logida!';
-        return $errormsgs;
-    }
-
-    $connection = connect_db();
-    $register_query = mysqli_query($connection, "insert into ksaadi_users (first_name, last_name, email, username, password) values ('" . mysqli_real_escape_string($connection, htmlspecialchars($_POST['first_name'])) . "', '" . mysqli_real_escape_string($connection, htmlspecialchars($_POST['last_name'])) . "','" . mysqli_real_escape_string($connection, htmlspecialchars($_POST['username'])) . "','" . mysqli_real_escape_string($connection, htmlspecialchars($_POST['email'])) . "', '" . sha1($_POST['password']) . "')");
-    $user_id = mysqli_insert_id($connection);
-    mysqli_free_result($register_query);
-    mysqli_close($connection);
-
-    if ($register_query === true) {
-        $_SESSION['login'] = true;
-        $_SESSION['id'] = $user_id;
-        $_SESSION['admin'] = 0;
-        $_SESSION['username'] = htmlspecialchars($_POST['username']);
-        header('Location: index.php?page=gallery');
+function db_get_users(){
+    $rows = db_select("SELECT `username`,`email`,`first_name`,`last_name`,`password` FROM `ksaadi_users`");
+    if($rows === false) {
+        $error = db_error();
+        // Handle error - inform administrator, log to file, show error page, etc.
+        // as devel, just display
+        echo $error;
         die();
     }
-
 }
 
 ?>
