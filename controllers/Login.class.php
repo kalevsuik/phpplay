@@ -14,6 +14,9 @@ class Login
 				),
 			);*/
 		$users = db_get_users();
+
+		//print_r ($users);
+	
 		$reqUsername = isset($_POST['username']) ? $_POST['username'] : ''; // kui username on olemas, siis votab selle, muul juhul jatab tyhjaks
 		$reqPassword = isset($_POST['password']) ? $_POST['password'] : '';
 		
