@@ -32,7 +32,7 @@ function db_select($query) {
 
     while ($row = mysqli_fetch_assoc($result)) {
         /*print $row['id'] . " ";
-        print $row['first_name'] . " ";
+        print $row['firstname'] . " ";
         print $row['username'] . "<BR>";*/
         $rows[] = $row;
     }
@@ -60,7 +60,9 @@ function db_get_users(){
         foreach ($rows as $row) {
           //  print "<BR>";
            // print_r ($row);
-            $users += [ $row['username']  => $row ];
+            $uname = $row['username'];
+            //$users +=  [  $uname => $row] ;
+            $users[$uname] =  $row ;
         }
         return $users;
     }
