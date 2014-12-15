@@ -99,4 +99,16 @@ function db_add_feedback($user_id,$location,$feedback){
     return true;
 }
 
+function db_user_feedback($user_id){
+    $rows = db_select("SELECT `location`,`feedback` FROM `ksaadi_feedback` WHERE user_id=".$user_id);
+    if($rows === false) {
+        $error = db_error();
+        // as devel, just display
+        echo $error;
+        die();
+    }else{
+        return $rows;
+    }
+}
+
 ?>
