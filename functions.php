@@ -66,4 +66,18 @@ function db_get_users(){
     }
 }
 
+function db_add_user($username,$password,$firstname,$lastname,$email){
+ 
+    $result = db_query("INSERT INTO `ksaadi_users` (`username`,`password`,`last_name`,`first_name`,`email`) VALUES (" . $username . "," . $password . "," . $lastname . "," . $firstname . "," . $email . ")");
+    if($result === false) {
+        return false;
+    }
+    return true;
+}
+
+    function db_error() {
+        $connection = db_connect();
+        return mysqli_error($connection);
+    }
+
 ?>
