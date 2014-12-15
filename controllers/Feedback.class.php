@@ -32,9 +32,11 @@ class Feedback
 		}
 		
 		if(isset($_SESSION['admin']) && $_SESSION['admin'] == 1){
-			$view->addViewVar('fullfeedback', $fb->getAllFeedBack());
+			$view->addViewVar('fullfeedback', db_all_feedback());
 		}else{
-			$view->addViewVar('feedback', $fb->getUserFeedBack($_SESSION['user_id']));
+			$ar=db_user_feedback($_SESSION['user_id']);
+			$view->addViewVar('feedback',  $ar);
+			//$view->addViewVar('feedback',  $fb->getUserFeedBack($_SESSION['user_id']));
 		}
 		$view->setTemplateFile('views/feedback.php');
 		echo $view->render();
