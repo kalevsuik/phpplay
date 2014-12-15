@@ -11,9 +11,8 @@ admin INTEGER(1) NOT NULL DEFAULT '0'
 
 CREATE TABLE `ksaadi_feedback` (
  `id` int(10) NOT NULL AUTO_INCREMENT,
- `user_id` int(10) DEFAULT NULL,
+ `user_id` int(10) NOT NULL REFERENCES ksaadi_users(id),
  `location` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
  `feedback` varchar(5000) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
- PRIMARY KEY (`id`),
- FOREIGN KEY (user_id) REFERENCES ksaadi_users(id)
+ PRIMARY KEY (`id`)
 );
