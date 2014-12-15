@@ -131,7 +131,17 @@ form p {
 	position:relative;
 	top: 0px;
 	left: 550px;
-}	
+}
+
+table {
+	border: solid #CCF 3px;
+	float:center;
+	padding:0;
+	cursor: pointer;
+	text-align: 
+    color: red;
+
+}
 .clearer {
 	clear: both;
 }
