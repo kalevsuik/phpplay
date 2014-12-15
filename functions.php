@@ -110,5 +110,17 @@ function db_user_feedback($user_id){
         return $rows;
     }
 }
+//select ksaadi_feedback.id as id, ksaadi_feedback.feedback as description, users.username as username from ksaadi_feedback as feedback join ksaadi_users as users on feedback.user_id = users.id order by users.username");
+function db_all_feedback(){
+    $rows = db_select("SELECT fdbck.location as location ,fdbck.feedback as feedback, users.username as user FROM `ksaadi_feedback` as `fdbck` join `ksaadi_users` as `users` on fdbck.user_id = users.id order by users.username");
+    if($rows === false) {
+        $error = db_error();
+        // as devel, just display
+        echo $error;
+        die();
+    }else{
+        return $rows;
+    }
+}
 
 ?>
