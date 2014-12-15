@@ -13,9 +13,16 @@ class Feedback
 			echo $view->render();
 			return;
 		}
-		
+
+
 		$fb = new FeedBackMsg();
 		$view = new View();
+
+		//print_r($_POST);
+		if(isset($_POST['Asukoht'])){
+			$view->addViewVar('newfeedback', "Lisatud");
+		}
+		
 		if(isset($_SESSION['admin']) && $_SESSION['admin'] == 1){
 			$view->addViewVar('fullfeedback', $fb->getAllFeedBack());
 		}else{

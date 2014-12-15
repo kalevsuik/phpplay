@@ -1,9 +1,12 @@
 <?php include 'header.php'?>
 <div id="wrap">
 
+<?php if ( ! isset($newfeedback)):?>
+
+
 <div id="vorm" >
 	<p>Palun vali, mis koht Sulle kõige rohkem meeldis ja lisa ka mõni kommentaar. </p>
-<form action="data.php" method="POST">
+<form action="<?php echo SITE_URL?>/index.php?action=feedback" method="POST">
 	
 <div> 
 <label>
@@ -24,7 +27,7 @@ Suur Kanjon <input type="radio" name="Asukoht" value="Suur Kanjon" />
 <input type="submit" value="Saada!" />
 </form>
 </div>
-
+<?php endif;?>
 <div id="pilt1">
 		<img src="Pildid/Tagasiside.JPG" alt="Autor" width="512" height="340" />
 		
