@@ -28,7 +28,7 @@ class Login
 		$user = (array_key_exists($reqUsername, $users)) ? $users[$reqUsername] : array();
 		//kontrollib kas users massiivis on vaartus olemas
 		
-		if (!empty($user) && $reqPassword === $user['password'])//upper ja lower case kontroll
+		if (!empty($user) && sha1($reqPassword) === $user['password'])//upper ja lower case kontroll
 		{
 			$_SESSION['logged_in'] = 1;
 			$_SESSION['user_id'] = $user['id'];
@@ -69,11 +69,11 @@ class Login
 				$lastname = db_quote($_POST['last_name']);
 				$email = db_quote($_POST['email']);
 				$password = db_quote($_POST['password']);
-				//$password_sh = sha1($_POST['password']);
+				$password_sh = "'" .sha1($_POST['password']). "'";
 
 				//echo $password_sh;
 
-				if( ! db_add_user($reqUsername,$password,$firstname,$lastname,$email)){
+				if( ! db_add_user($reqUsername,$password_sh,$firstname,$lastname,$email)){
 					$errormsgs = 'Kasutaja lisamine ebaõnnestus !' ;
 				}
 			}
