@@ -20,7 +20,15 @@ class Feedback
 
 		//print_r($_POST);
 		if(isset($_POST['Asukoht'])){
-			$view->addViewVar('newfeedback', "Lisatud");
+			$location = db_quote($_POST['Asukoht']);
+			$feedback = db_quote($_POST['vabatekst']);
+			$user_id=$_SESSION['user_id'];
+			if(db_add_feedback($user_id,$location,$feedback)){
+				$view->addViewVar('newfeedback', "Lisatud");
+			}else{
+				$view->addViewVar('newfeedback', "Lisamine ebaõnnestus!");
+			}
+			
 		}
 		
 		if(isset($_SESSION['admin']) && $_SESSION['admin'] == 1){

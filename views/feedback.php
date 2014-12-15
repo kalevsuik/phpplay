@@ -1,8 +1,9 @@
 <?php include 'header.php'?>
 <div id="wrap">
 
-<?php if ( ! isset($newfeedback)):?>
-
+<?php if (  isset($newfeedback)):?>
+<?php echo $newfeedback;?>
+<?php else:?>
 
 <div id="vorm" >
 	<p>Palun vali, mis koht Sulle kõige rohkem meeldis ja lisa ka mõni kommentaar. </p>
