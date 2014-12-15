@@ -67,17 +67,36 @@ function db_get_users(){
 }
 
 function db_add_user($username,$password,$firstname,$lastname,$email){
- 
+
+    //$str="INSERT INTO `ksaadi_users` (`username`,`password`,`last_name`,`first_name`,`email`) VALUES (" . $username . "," . $password . "," . $lastname . "," . $firstname . "," . $email . ")";
+
+    //echo $str;
+
     $result = db_query("INSERT INTO `ksaadi_users` (`username`,`password`,`last_name`,`first_name`,`email`) VALUES (" . $username . "," . $password . "," . $lastname . "," . $firstname . "," . $email . ")");
     if($result === false) {
         return false;
-    }
+    }/*else{
+        echo $result;
+    }*/
     return true;
 }
 
-    function db_error() {
-        $connection = db_connect();
-        return mysqli_error($connection);
+function db_error() {
+    $connection = db_connect();
+    return mysqli_error($connection);
+}
+
+function db_add_feedback($user_id,$location,$feedback){
+    $str="INSERT INTO `ksaadi_feedback` (`userid`,`location`,`feedback`) VALUES (" . $user_id . "," . $location . "," . $feedback .  ")";
+    echo $str;
+    
+    $result = db_query("INSERT INTO `ksaadi_feedback` (`userid`,`location`,`feedback`) VALUES (" . $user_id . "," . $location . "," . $feedback .  ")");
+    if($result === false) {
+        return false;
+    }else{
+        echo $result;
     }
+    return true;
+}
 
 ?>

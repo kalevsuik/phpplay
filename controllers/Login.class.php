@@ -68,7 +68,9 @@ class Login
 				$lastname = db_quote($_POST['last_name']);
 				$email = db_quote($_POST['email']);
 				$password = db_quote($_POST['password']);
-				//$password = sha1($_POST['password']);
+				//$password_sh = sha1($_POST['password']);
+
+				//echo $password_sh;
 
 				if( ! db_add_user($reqUsername,$password,$firstname,$lastname,$email)){
 					$errormsgs = 'Kasutaja lisamine ebaõnnestus !' ;

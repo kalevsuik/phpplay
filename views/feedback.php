@@ -32,4 +32,42 @@ Suur Kanjon <input type="radio" name="Asukoht" value="Suur Kanjon" />
 	<br class="clearer" />
 
 </div>
+
+  <?php if (isset($feedback)):?>
+  <table>
+  	<tr>
+  	<td>Asukoht</td>
+  	<td>Tagasiside</td>
+    </tr>
+  <?php foreach($feedback as $fb):?>
+  <tr>
+  	<td><?php echo $fb['location']?></td>
+  	<td><?php echo $fb['feedback']?></td>
+  </tr>	
+  <?php endforeach;?>
+  </table>
+  <?php endif;?>
+
+  <?php if (isset($fullfeedback)):?>
+  <table>
+  	<tr>
+    <td>Kasutaja</td>
+  	<td>Asukoht</td>
+  	<td>Tagasiside</td>
+    </tr>
+  <?php foreach($fullfeedback as $fb):?>
+  <tr>
+  	<td><?php echo $fb['user']?></td>
+  	<td><?php echo $fb['location']?></td>
+  	<td><?php echo $fb['feedback']?></td>
+  </tr>	
+  <?php endforeach;?>
+  </table>
+  <?php endif;?>
+
+
+
+
+  <br class="clearer" />
+  </div>
 <?php include 'footer.php'?>

@@ -5,7 +5,7 @@ class Feedback
 	public function run()
 	{
 		// pole sisse loginud
-		if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != 1)
+		if (!isset($_SESSION['user_id']) || !isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != 1)
 		{
 			$view = new View();
 			$view->setTemplateFile('views/login_error.php');
@@ -13,7 +13,13 @@ class Feedback
 			return;
 		}
 		
+		$fb = new FeedBackMsg();
 		$view = new View();
+		if(isset($_SESSION['admin']) && $_SESSION['admin'] == 1){
+			$view->addViewVar('fullfeedback', $fb->getAllFeedBack());
+		}else{
+			$view->addViewVar('feedback', $fb->getUserFeedBack($_SESSION['user_id']));
+		}
 		$view->setTemplateFile('views/feedback.php');
 		echo $view->render();
 	}
