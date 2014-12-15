@@ -89,7 +89,7 @@ function db_error() {
 function db_add_feedback($user_id,$location,$feedback){
     $str="INSERT INTO `ksaadi_feedback` (`userid`,`location`,`feedback`) VALUES (" . $user_id . "," . $location . "," . $feedback .  ")";
     echo $str;
-    
+
     $result = db_query("INSERT INTO `ksaadi_feedback` (`userid`,`location`,`feedback`) VALUES (" . $user_id . "," . $location . "," . $feedback .  ")");
     if($result === false) {
         return false;

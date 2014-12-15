@@ -5,6 +5,7 @@ class Feedback
 	public function run()
 	{
 		// pole sisse loginud
+		//print "<BR>user_id".$_SESSION['user_id']."<BR>";
 		if (!isset($_SESSION['user_id']) || !isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != 1)
 		{
 			$view = new View();

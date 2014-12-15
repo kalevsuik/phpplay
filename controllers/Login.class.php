@@ -31,7 +31,8 @@ class Login
 		if (!empty($user) && $reqPassword === $user['password'])//upper ja lower case kontroll
 		{
 			$_SESSION['logged_in'] = 1;
-			$_SESSION['id'] = $user['id'];
+			$_SESSION['user_id'] = $user['id'];
+			//print "<BR>user_id".$user['id']."<BR>";
 			$_SESSION['admin'] = $user['admin'];
 			$_SESSION['fullname'] = $user['firstname'] . ' ' . $user['lastname'];
 			session_write_close();//sessiooni lopetamiseks
